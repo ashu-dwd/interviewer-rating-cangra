@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files (e.g., CSS, JS, images)
-app.use(express.static('public'));
+app.use(express.static('Public'));
 
 // Routes
 app.use('/api/v1/', aiRoute);

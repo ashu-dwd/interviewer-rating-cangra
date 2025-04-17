@@ -14,10 +14,10 @@ app.use(express.static('public'));
 app.use('/api/v1/', aiRoute)
 
 app.get('/', (req, res) => {
-    res.send('Hello world!');
+    res.sendFile('index.html', { root: __dirname });
 });
 app.get('/api-docs', (req, res) => {
-    res.send('index.html')
+    res.sendFile('index.html', { root: __dirname });
 })
 
 

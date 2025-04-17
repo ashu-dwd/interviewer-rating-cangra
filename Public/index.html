@@ -20,8 +20,8 @@
         --light: #f8f9fa;
         --gray: #8d99ae;
         --white: #ffffff;
-        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        --shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 8px 12px rgba(0, 0, 0, 0.08);
         --transition: all 0.3s ease-in-out;
       }
 
@@ -48,7 +48,7 @@
           var(--primary)
         );
         color: white;
-        padding: 1.5rem 2rem;
+        padding: 0.8rem 2rem;
         box-shadow: var(--shadow);
         position: sticky;
         top: 0;
@@ -64,14 +64,19 @@
 
       .header-icon {
         margin-right: 15px;
-        font-size: 2rem;
+        font-size: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+        font-weight: 600;
       }
 
       .main-container {
         display: flex;
         flex: 1;
-        padding: 30px;
-        gap: 30px;
+        padding: 20px;
+        gap: 20px;
         flex-wrap: wrap;
         max-width: 1400px;
         margin: 0 auto;
@@ -101,41 +106,44 @@
       .section-header {
         display: flex;
         align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #eef2ff;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #eef2ff;
       }
 
       .section-icon {
         color: var(--primary);
         margin-right: 12px;
-        font-size: 1.8rem;
+        font-size: 1.4rem;
       }
 
       h2 {
         color: var(--dark);
         font-weight: 600;
+        font-size: 1.4rem;
       }
 
       .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 18px;
       }
 
       label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         font-weight: 500;
         color: var(--dark);
+        font-size: 0.95rem;
       }
 
       input,
       textarea {
         width: 100%;
-        padding: 12px;
-        border: 1px solid #dce1ed;
+        padding: 10px 12px;
+        border: 1px solid #e7ebf5;
         border-radius: 8px;
-        font-size: 16px;
+        font-size: 15px;
         transition: var(--transition);
+        background-color: #fcfdff;
       }
 
       input:focus,
@@ -143,6 +151,7 @@
         outline: none;
         border-color: var(--primary);
         box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        background-color: white;
       }
 
       textarea {
@@ -154,10 +163,10 @@
         background-color: var(--primary);
         color: white;
         border: none;
-        padding: 14px 24px;
+        padding: 12px 22px;
         border-radius: 8px;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 600;
         margin-top: 15px;
         transition: var(--transition);
@@ -186,8 +195,8 @@
         border: 4px solid rgba(67, 97, 238, 0.1);
         border-radius: 50%;
         border-top: 4px solid var(--primary);
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         animation: spin 1s linear infinite;
         margin: 20px auto;
       }
@@ -219,7 +228,7 @@
         background-color: var(--white);
         border-radius: 12px;
         box-shadow: var(--shadow);
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         overflow: hidden;
       }
 
@@ -230,8 +239,8 @@
           var(--primary-light)
         );
         color: white;
-        padding: 18px 20px;
-        font-size: 18px;
+        padding: 14px 18px;
+        font-size: 16px;
         font-weight: bold;
         display: flex;
         align-items: center;
@@ -239,14 +248,14 @@
       }
 
       .rating-body {
-        padding: 20px;
+        padding: 18px;
       }
 
       .rating-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 12px 0;
+        padding: 10px 0;
         border-bottom: 1px solid #eef2ff;
       }
 
@@ -256,7 +265,7 @@
 
       .rating-label {
         font-weight: 600;
-        font-size: 16px;
+        font-size: 15px;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -270,10 +279,11 @@
         font-weight: bold;
         background-color: var(--primary);
         color: white;
-        padding: 6px 12px;
+        padding: 5px 10px;
         border-radius: 20px;
-        min-width: 45px;
+        min-width: 40px;
         text-align: center;
+        font-size: 14px;
       }
 
       .rating-value.high {
@@ -291,20 +301,21 @@
       .rating-feedback {
         font-size: 14px;
         color: var(--gray);
-        margin-top: 8px;
+        margin-top: 6px;
         padding-right: 50px;
       }
 
       .list-section {
-        margin-top: 20px;
+        margin-top: 18px;
       }
 
       .list-section h4 {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         color: var(--dark);
         display: flex;
         align-items: center;
         gap: 8px;
+        font-size: 15px;
       }
 
       .list-section-icon {
@@ -317,8 +328,8 @@
 
       .list-items li {
         background-color: #f8f9ff;
-        padding: 12px 15px;
-        margin-bottom: 8px;
+        padding: 10px 12px;
+        margin-bottom: 6px;
         border-radius: 6px;
         font-size: 14px;
         display: flex;
@@ -351,8 +362,8 @@
         text-align: center;
         background: linear-gradient(135deg, #f8f9ff, #eef2ff);
         border-radius: 12px;
-        padding: 25px;
-        margin-bottom: 25px;
+        padding: 20px;
+        margin-bottom: 20px;
         box-shadow: var(--shadow);
       }
 
@@ -360,44 +371,44 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
       }
 
       .overall-score {
-        font-size: 64px;
+        font-size: 54px;
         font-weight: bold;
         color: var(--primary);
         line-height: 1;
       }
 
       .score-scale {
-        font-size: 18px;
+        font-size: 16px;
         color: var(--gray);
         margin-left: 5px;
         align-self: flex-end;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
       }
 
       .overall-summary {
         text-align: center;
         margin-bottom: 10px;
         padding: 0 20px;
-        font-size: 16px;
+        font-size: 15px;
         line-height: 1.6;
         color: var(--dark);
       }
 
       .progress-bar-wrapper {
         width: 100%;
-        height: 10px;
+        height: 8px;
         background-color: rgba(67, 97, 238, 0.1);
-        border-radius: 5px;
-        margin-top: 20px;
+        border-radius: 4px;
+        margin-top: 18px;
       }
 
       .progress-bar {
         height: 100%;
-        border-radius: 5px;
+        border-radius: 4px;
         background: linear-gradient(90deg, var(--primary-dark), var(--primary));
         transition: width 1s ease-in-out;
       }
@@ -422,7 +433,7 @@
         margin-left: -100px;
         opacity: 0;
         transition: opacity 0.3s;
-        font-size: 14px;
+        font-size: 13px;
       }
 
       .tooltip:hover .tooltip-text {
@@ -430,38 +441,56 @@
         opacity: 0.9;
       }
 
+      .testing-tool {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #eef2ff;
+        border-radius: 8px;
+        display: none;
+      }
+
+      .testing-tool h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      #testResponseData {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+      }
+
       @media (max-width: 768px) {
         .main-container {
           flex-direction: column;
-          padding: 15px;
+          padding: 12px;
         }
 
         .input-section,
         .results-section {
           width: 100%;
-          padding: 20px;
+          padding: 16px;
         }
 
         header {
-          padding: 1rem 1.5rem;
+          padding: 0.7rem 1.2rem;
         }
 
         .overall-score {
-          font-size: 48px;
+          font-size: 42px;
         }
 
         .rating-feedback {
           padding-right: 0;
         }
-      }
-      .main-container {
-        display: flex;
-        flex: 1;
-        padding: 20px;
-        gap: 20px;
-        flex-wrap: wrap;
-        max-width: 1200px;
-        margin: 0 auto;
+
+        h1 {
+          font-size: 1.3rem;
+        }
+
+        h2 {
+          font-size: 1.2rem;
+        }
       }
     </style>
   </head>
@@ -554,6 +583,15 @@
         <div class="error-message" id="errorMessage">
           <i class="fa-solid fa-circle-exclamation"></i>
           <span id="errorText"></span>
+        </div>
+
+        <div class="testing-tool" id="testingTool">
+          <h3>Testing Tool</h3>
+          <textarea
+            id="testResponseData"
+            placeholder="Paste sample JSON response here for testing"
+          ></textarea>
+          <button type="button" id="testResponseBtn">Test Response</button>
         </div>
       </section>
 
@@ -650,6 +688,96 @@
         const resultsContainer = document.getElementById("resultsContainer");
         const errorMessage = document.getElementById("errorMessage");
         const errorText = document.getElementById("errorText");
+        const testingTool = document.getElementById("testingTool");
+        const testResponseData = document.getElementById("testResponseData");
+        const testResponseBtn = document.getElementById("testResponseBtn");
+
+        // Enable testing mode for development
+        const enableTestingMode = false;
+        if (enableTestingMode) {
+          testingTool.style.display = "block";
+        }
+
+        // Set sample data for testing
+        const sampleData = {
+          overall_rating: {
+            score: 7,
+            summary:
+              "The interviewer demonstrated a good understanding of Salesforce concepts and tailored the questions to the candidate's experience level. However, there is room for improvement in terms of exploring the candidate's practical experience and providing more specific feedback.",
+          },
+          category_ratings: {
+            relevance: {
+              score: 8,
+              feedback:
+                "Most of the questions were relevant to the candidate's experience and the required skills for a Salesforce developer role. The interviewer focused on Apex triggers, LWC components, and SOQL queries, which are essential skills.",
+            },
+            technical_depth: {
+              score: 7,
+              feedback:
+                "The technical depth of the questions was appropriate for the candidate's claimed experience. The trigger coding exercise was a good way to assess practical skills. However, some areas could have been explored further, such as specific challenges faced while developing LWC components or debugging Apex code.",
+            },
+            communication: {
+              score: 8,
+              feedback:
+                "The interviewer communicated clearly and professionally. The introduction was well-structured. The interviewer provided positive feedback on the trigger exercise and constructive criticism regarding areas for improvement. The interviewer was polite throughout the session.",
+            },
+            skill_coverage: {
+              score: 7,
+              feedback:
+                "The interview covered key skills such as Apex, LWC, and SOQL. Async Apex was touched upon. However, REST APIs and DevOps/Salesforce Tools were not adequately explored.",
+            },
+            structure: {
+              score: 7,
+              feedback:
+                "The interview had a reasonable structure, starting with introductions, moving to experience overview, technical questions, a coding exercise, and ending with feedback and recommendations. However, the transitions between topics could have been smoother.",
+            },
+            follow_up_quality: {
+              score: 6,
+              feedback:
+                "The follow-up questions were somewhat limited. While the interviewer asked why the candidate chose 'after' triggers, more probing questions could have been asked to assess the depth of understanding. Similarly, when the candidate mentioned working with data tables, more questions about the challenges or optimizations could have been asked.",
+            },
+            time_management: {
+              score: 8,
+              feedback:
+                "The interview was conducted within the allocated time and covered a decent range of topics. The interviewer efficiently moved on from areas where the candidate lacked experience.",
+            },
+          },
+          strengths: [
+            "Good at tailoring questions to the candidate's experience level.",
+            "Provided a practical coding exercise to assess skills.",
+            "Offered constructive feedback and specific recommendations for improvement.",
+          ],
+          improvement_areas: [
+            "Could delve deeper into specific experiences and challenges faced by the candidate.",
+            "Lacked coverage of Rest APIs and DevOps Tools.",
+            "Follow-up questions could be more probing to assess depth of understanding.",
+          ],
+          missed_skills: ["Rest APIs", "DevOps/Salesforce Tools"],
+          recommendations: [
+            "Develop a structured list of questions for each key skill area (Apex, LWC, SOQL, REST APIs, DevOps) to ensure consistent coverage across interviews.",
+            "Include behavioral questions to assess problem-solving skills and teamwork abilities.",
+            "Ask the candidate about specific projects they have worked on and the challenges they faced to gain a better understanding of their practical experience.",
+          ],
+        };
+
+        // Handle test response button click
+        if (testResponseBtn) {
+          testResponseBtn.addEventListener("click", function () {
+            let testData;
+            try {
+              testData = JSON.parse(
+                testResponseData.value || JSON.stringify(sampleData)
+              );
+              displayResults(testData);
+              loadingIndicator.style.display = "none";
+              resultsContainer.style.display = "block";
+            } catch (error) {
+              console.error("Error parsing test data:", error);
+              errorText.textContent = "Invalid JSON format";
+              errorMessage.style.display = "block";
+            }
+          });
+        }
 
         form.addEventListener("submit", function (e) {
           e.preventDefault();
@@ -667,6 +795,16 @@
           formData.forEach((value, key) => {
             data[key] = value;
           });
+
+          // For demo/testing purposes, use sample data instead of real API call
+          if (enableTestingMode) {
+            setTimeout(() => {
+              displayResults(sampleData);
+              loadingIndicator.style.display = "none";
+              resultsContainer.style.display = "block";
+            }, 1500);
+            return;
+          }
 
           fetch("https://interviewer-rating-cangra.onrender.com/api/v1/gen", {
             method: "POST",

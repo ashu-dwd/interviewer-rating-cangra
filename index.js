@@ -9,7 +9,9 @@ const PORT = 3000;
 // Middleware to parse JSON and form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 
 // Serve static files (e.g., CSS, JS, images)
 app.use(express.static('Public'));

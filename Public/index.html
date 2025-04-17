@@ -454,6 +454,15 @@
           padding-right: 0;
         }
       }
+      .main-container {
+        display: flex;
+        flex: 1;
+        padding: 20px;
+        gap: 20px;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
     </style>
   </head>
   <body>
@@ -642,70 +651,6 @@
         const errorMessage = document.getElementById("errorMessage");
         const errorText = document.getElementById("errorText");
 
-        // For demo purposes, you can use this sample data
-        const sampleData = {
-          overall_rating: {
-            score: 7,
-            summary:
-              "The interviewer conducted a reasonably thorough interview, covering several key Salesforce concepts and technologies. However, some questions lacked depth, and the interview could have been better structured for optimal skill assessment. The interviewer provided constructive feedback, which is a positive aspect.",
-          },
-          category_ratings: {
-            relevance: {
-              score: 8,
-              feedback:
-                "The majority of the questions were relevant to the Salesforce platform and the listed skills to rate. The interviewer touched upon Apex, LWC, integrations, and deployments, which are all pertinent to a Salesforce developer role.",
-            },
-            technical_depth: {
-              score: 6,
-              feedback:
-                "While the interviewer covered several technical topics, some questions lacked the depth needed to truly assess the candidate's expertise. For instance, the questions on integrations and deployments could have been more specific and challenging. The whiteboard coding exercise was good for assessing coding skills.",
-            },
-            communication: {
-              score: 8,
-              feedback:
-                "The interviewer's communication was generally clear and professional. The interviewer provided clear instructions for the coding exercise. The interviewer also provided useful feedback at the end.",
-            },
-            skill_coverage: {
-              score: 7,
-              feedback:
-                "The interviewer covered Apex (sync and async), LWC, and REST APIs. DevOps/Salesforce Tools were touched upon but could have been explored further. Overall skill coverage was adequate but not comprehensive.",
-            },
-            structure: {
-              score: 6,
-              feedback:
-                "The interview lacked a clear structure. The topics seemed to jump around without a logical flow. A more structured approach, with dedicated time for each key skill area, would have been beneficial.",
-            },
-            follow_up_quality: {
-              score: 7,
-              feedback:
-                "Some follow-up questions were good, such as probing the candidate's understanding of mixed DML exceptions and asynchronous methods. However, some answers were accepted without sufficient follow-up to verify true understanding.",
-            },
-            time_management: {
-              score: 7,
-              feedback:
-                "The interview seemed to utilize the time well enough, covering several topics. The coding exercise consumed a significant portion of the time. A more focused approach could have allowed for a deeper dive into specific areas.",
-            },
-          },
-          strengths: [
-            "Good coverage of multiple Salesforce topics.",
-            "Included a practical coding exercise.",
-            "Provided constructive feedback to the candidate.",
-          ],
-          improvement_areas: [
-            "Improve interview structure for better flow and topic organization.",
-            "Increase the technical depth of questions in certain areas (e.g., integrations, deployments).",
-            "Improve follow-up questioning to verify the candidate's understanding thoroughly.",
-          ],
-          missed_skills: [
-            "More in depth review of DevOps/Salesforce Tools experience.",
-          ],
-          recommendations: [
-            "Develop a more structured interview format with specific time allocations for each skill area.",
-            "Create a bank of more challenging technical questions to assess deeper expertise.",
-            "Focus on active listening and asking clarifying questions to ensure a thorough understanding of the candidate's responses.",
-          ],
-        };
-
         form.addEventListener("submit", function (e) {
           e.preventDefault();
 
@@ -723,25 +668,6 @@
             data[key] = value;
           });
 
-          // Simulate API call with a timeout (replace with actual API call)
-          setTimeout(() => {
-            try {
-              // Use the sample data for demonstration
-              displayResults(sampleData);
-              loadingIndicator.style.display = "none";
-              resultsContainer.style.display = "block";
-            } catch (error) {
-              console.error("Error:", error);
-              errorText.textContent = `${
-                error.message || "Failed to evaluate interview"
-              }`;
-              errorMessage.style.display = "block";
-              loadingIndicator.style.display = "none";
-            }
-          }, 2000);
-
-          // In a real implementation, you would use fetch:
-          /*
           fetch("https://interviewer-rating-cangra.onrender.com/api/v1/gen", {
             method: "POST",
             headers: {
@@ -762,11 +688,12 @@
             })
             .catch((error) => {
               console.error("Error:", error);
-              errorText.textContent = `${error.message || "Failed to evaluate interview"}`;
+              errorText.textContent = `${
+                error.message || "Failed to evaluate interview"
+              }`;
               errorMessage.style.display = "block";
               loadingIndicator.style.display = "none";
             });
-          */
         });
 
         function displayResults(data) {

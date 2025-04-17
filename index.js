@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const aiRoute = require('./Routes/aiRoute');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
@@ -8,6 +9,7 @@ const PORT = 3000;
 // Middleware to parse JSON and form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // Serve static files (e.g., CSS, JS, images)
 app.use(express.static('Public'));

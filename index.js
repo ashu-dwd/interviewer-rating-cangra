@@ -1,26 +1,25 @@
 const express = require('express');
+const path = require('path');
 const aiRoute = require('./Routes/aiRoute');
 
 const app = express();
-
 const PORT = 3000;
 
-//middlewares for forms
+// Middleware to parse JSON and form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//middlewares of routing
+// Serve static files (e.g., CSS, JS, images)
 app.use(express.static('public'));
-app.use('/api/v1/', aiRoute)
 
+// Routes
+app.use('/api/v1/', aiRoute);
+
+// Serve index.html on root route
 app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: __dirname });
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-app.get('/api-docs', (req, res) => {
-    res.sendFile('index.html', { root: __dirname });
-})
-
 
 app.listen(PORT, () => {
-    console.log(`App is listening at port: ${PORT}`)
-})
+    console.log(`✅ Server running at http://localhost:${PORT}`);
+});

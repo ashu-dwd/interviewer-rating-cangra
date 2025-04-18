@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interviewer Evaluation</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="input-container">
+        <label for="candidateName">Candidate Name:</label>
+        <input type="text" id="candidateName" name="candidateName" required />
+
+        <label for="candidateExperience">Candidate Experience (years):</label>
+        <input
+          type="number"
+          id="candidateExperience"
+          name="candidateExperience"
+          required
+        />
+
+        <label for="skillsToRate">Skills to Rate:</label>
+        <textarea id="skillsToRate" name="skillsToRate" required></textarea>
+
+        <label for="mandatorySkills">Mandatory Skills:</label>
+        <textarea
+          id="mandatorySkills"
+          name="mandatorySkills"
+          required
+        ></textarea>
+
+        <label for="interviewTranscript">Interview Transcript:</label>
+        <textarea
+          id="interviewTranscript"
+          name="interviewTranscript"
+          required
+        ></textarea>
+
+        <button type="submit" id="evaluateBtn">Evaluate Interview</button>
+      </div>
+      <div class="result-container"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jq-console/2.7.7/jqconsole.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#evaluateBtn").click(function () {
+          var candidateName = $("#candidateName").val();
+          var candidateExperience = $("#candidateExperience").val();
+          var skillsToRate = $("#skillsToRate").val();
+          var mandatorySkills = $("#mandatorySkills").val();
+          var interviewTranscript = $("#interviewTranscript").val();
+
+          $.ajax({
+            url: "http://localhost:3000/api/v1/gen",
+            type: "POST",
+            data: {
+              candidateName: candidateName,
+              candidateExperience: candidateExperience,
+              interviewTranscript: interviewTranscript,
+              skillsToRate: skillsToRate,
+              mandetorySkills: mandatorySkills,
+            },
+            success: function (response) {
+              var resultContainer = $(".result-container");
+              resultContainer.empty();
+              resultContainer.append(
+                $("<pre>").text(JSON.stringify(response, null, 2))
+              );
+            },
+            error: function (xhr, status, error) {
+              console.error("Error:", error);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

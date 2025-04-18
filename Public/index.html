@@ -3,982 +3,524 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interview Evaluator AI</title>
+    <title>Interviewer Evaluation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    <style>
-      :root {
-        --primary: #4361ee;
-        --primary-dark: #3a0ca3;
-        --primary-light: #7389f4;
-        --success: #2ecc71;
-        --danger: #e63946;
-        --warning: #ff9f1c;
-        --dark: #2b2d42;
-        --light: #f8f9fa;
-        --gray: #8d99ae;
-        --white: #ffffff;
-        --shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
-        --shadow-lg: 0 8px 12px rgba(0, 0, 0, 0.08);
-        --transition: all 0.3s ease-in-out;
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
-
-      body {
-        background-color: #f5f8ff;
-        color: var(--dark);
-        line-height: 1.6;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      header {
-        background: linear-gradient(
-          135deg,
-          var(--primary-dark),
-          var(--primary)
-        );
-        color: white;
-        padding: 0.8rem 2rem;
-        box-shadow: var(--shadow);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-
-      .header-content {
-        display: flex;
-        align-items: center;
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-
-      .header-icon {
-        margin-right: 15px;
-        font-size: 1.5rem;
-      }
-
-      h1 {
-        font-size: 1.6rem;
-        font-weight: 600;
-      }
-
-      .main-container {
-        display: flex;
-        flex: 1;
-        padding: 20px;
-        gap: 20px;
-        flex-wrap: wrap;
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-
-      .input-section,
-      .results-section {
-        background: var(--white);
-        border-radius: 12px;
-        box-shadow: var(--shadow);
-        padding: 25px;
-        flex: 1;
-        min-width: 300px;
-        transition: var(--transition);
-      }
-
-      .input-section:hover,
-      .results-section:hover {
-        box-shadow: var(--shadow-lg);
-      }
-
-      .input-section {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .section-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 18px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid #eef2ff;
-      }
-
-      .section-icon {
-        color: var(--primary);
-        margin-right: 12px;
-        font-size: 1.4rem;
-      }
-
-      h2 {
-        color: var(--dark);
-        font-weight: 600;
-        font-size: 1.4rem;
-      }
-
-      .form-group {
-        margin-bottom: 18px;
-      }
-
-      label {
-        display: block;
-        margin-bottom: 6px;
-        font-weight: 500;
-        color: var(--dark);
-        font-size: 0.95rem;
-      }
-
-      input,
-      textarea {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #e7ebf5;
-        border-radius: 8px;
-        font-size: 15px;
-        transition: var(--transition);
-        background-color: #fcfdff;
-      }
-
-      input:focus,
-      textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-        background-color: white;
-      }
-
-      textarea {
-        min-height: 120px;
-        resize: vertical;
-      }
-
-      button {
-        background-color: var(--primary);
-        color: white;
-        border: none;
-        padding: 12px 22px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: 600;
-        margin-top: 15px;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      button:hover {
-        background-color: var(--primary-dark);
-        transform: translateY(-2px);
-      }
-
-      button:active {
-        transform: translateY(0);
-      }
-
-      .loading {
-        display: none;
-        text-align: center;
-        padding: 30px;
-      }
-
-      .spinner {
-        border: 4px solid rgba(67, 97, 238, 0.1);
-        border-radius: 50%;
-        border-top: 4px solid var(--primary);
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 20px auto;
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      .error-message {
-        color: var(--danger);
-        background-color: rgba(230, 57, 70, 0.1);
-        border-left: 4px solid var(--danger);
-        padding: 12px;
-        margin-top: 15px;
-        border-radius: 4px;
-        display: none;
-      }
-
-      .results-container {
-        display: none;
-      }
-
-      .rating-card {
-        background-color: var(--white);
-        border-radius: 12px;
-        box-shadow: var(--shadow);
-        margin-bottom: 20px;
-        overflow: hidden;
-      }
-
-      .rating-header {
-        background: linear-gradient(
-          135deg,
-          var(--primary),
-          var(--primary-light)
-        );
-        color: white;
-        padding: 14px 18px;
-        font-size: 16px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .rating-body {
-        padding: 18px;
-      }
-
-      .rating-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #eef2ff;
-      }
-
-      .rating-item:last-child {
-        border-bottom: none;
-      }
-
-      .rating-label {
-        font-weight: 600;
-        font-size: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .rating-icon {
-        color: var(--primary);
-      }
-
-      .rating-value {
-        font-weight: bold;
-        background-color: var(--primary);
-        color: white;
-        padding: 5px 10px;
-        border-radius: 20px;
-        min-width: 40px;
-        text-align: center;
-        font-size: 14px;
-      }
-
-      .rating-value.high {
-        background-color: var(--success);
-      }
-
-      .rating-value.medium {
-        background-color: var(--warning);
-      }
-
-      .rating-value.low {
-        background-color: var(--danger);
-      }
-
-      .rating-feedback {
-        font-size: 14px;
-        color: var(--gray);
-        margin-top: 6px;
-        padding-right: 50px;
-      }
-
-      .list-section {
-        margin-top: 18px;
-      }
-
-      .list-section h4 {
-        margin-bottom: 10px;
-        color: var(--dark);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 15px;
-      }
-
-      .list-section-icon {
-        color: var(--primary);
-      }
-
-      .list-items {
-        list-style-type: none;
-      }
-
-      .list-items li {
-        background-color: #f8f9ff;
-        padding: 10px 12px;
-        margin-bottom: 6px;
-        border-radius: 6px;
-        font-size: 14px;
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-      }
-
-      .list-item-icon {
-        color: var(--primary);
-        margin-top: 2px;
-      }
-
-      .strengths .list-item-icon {
-        color: var(--success);
-      }
-
-      .improvements .list-item-icon {
-        color: var(--warning);
-      }
-
-      .missed-skills .list-item-icon {
-        color: var(--danger);
-      }
-
-      .recommendations .list-item-icon {
-        color: var(--primary);
-      }
-
-      .overall-container {
-        text-align: center;
-        background: linear-gradient(135deg, #f8f9ff, #eef2ff);
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: var(--shadow);
-      }
-
-      .overall-score-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 12px;
-      }
-
-      .overall-score {
-        font-size: 54px;
-        font-weight: bold;
-        color: var(--primary);
-        line-height: 1;
-      }
-
-      .score-scale {
-        font-size: 16px;
-        color: var(--gray);
-        margin-left: 5px;
-        align-self: flex-end;
-        margin-bottom: 12px;
-      }
-
-      .overall-summary {
-        text-align: center;
-        margin-bottom: 10px;
-        padding: 0 20px;
-        font-size: 15px;
-        line-height: 1.6;
-        color: var(--dark);
-      }
-
-      .progress-bar-wrapper {
-        width: 100%;
-        height: 8px;
-        background-color: rgba(67, 97, 238, 0.1);
-        border-radius: 4px;
-        margin-top: 18px;
-      }
-
-      .progress-bar {
-        height: 100%;
-        border-radius: 4px;
-        background: linear-gradient(90deg, var(--primary-dark), var(--primary));
-        transition: width 1s ease-in-out;
-      }
-
-      .tooltip {
-        position: relative;
-        display: inline-block;
-      }
-
-      .tooltip .tooltip-text {
-        visibility: hidden;
-        width: 200px;
-        background-color: var(--dark);
-        color: var(--white);
-        text-align: center;
-        border-radius: 6px;
-        padding: 8px;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -100px;
-        opacity: 0;
-        transition: opacity 0.3s;
-        font-size: 13px;
-      }
-
-      .tooltip:hover .tooltip-text {
-        visibility: visible;
-        opacity: 0.9;
-      }
-
-      .testing-tool {
-        margin-top: 20px;
-        padding: 15px;
-        background-color: #eef2ff;
-        border-radius: 8px;
-        display: none;
-      }
-
-      .testing-tool h3 {
-        font-size: 16px;
-        margin-bottom: 10px;
-      }
-
-      #testResponseData {
-        width: 100%;
-        height: 100px;
-        margin-bottom: 10px;
-      }
-
-      @media (max-width: 768px) {
-        .main-container {
-          flex-direction: column;
-          padding: 12px;
-        }
-
-        .input-section,
-        .results-section {
-          width: 100%;
-          padding: 16px;
-        }
-
-        header {
-          padding: 0.7rem 1.2rem;
-        }
-
-        .overall-score {
-          font-size: 42px;
-        }
-
-        .rating-feedback {
-          padding-right: 0;
-        }
-
-        h1 {
-          font-size: 1.3rem;
-        }
-
-        h2 {
-          font-size: 1.2rem;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
-      <div class="header-content">
-        <i class="fa-solid fa-comments-dollar header-icon"></i>
-        <h1>Interview Evaluator AI</h1>
-      </div>
-    </header>
+    <div class="container">
+      <h2 class="mb-4 text-center">
+        <i class="fas fa-user-tie me-2"></i>Interviewer Evaluation Form
+      </h2>
 
-    <div class="main-container">
-      <section class="input-section">
-        <div class="section-header">
-          <i class="fa-solid fa-clipboard-question section-icon"></i>
-          <h2>Evaluate Interview</h2>
-        </div>
-        <form id="evaluationForm">
-          <div class="form-group">
-            <label for="candidateName">
-              <i class="fa-solid fa-user"></i> Candidate Name:
+      <form id="evaluationForm">
+        <div class="input-container">
+          <div class="mb-3">
+            <label for="candidateName" class="form-label">
+              <i class="fas fa-user me-2"></i>Candidate Name:
             </label>
             <input
               type="text"
+              class="form-control"
               id="candidateName"
               name="candidateName"
               required
-              placeholder="Enter candidate name"
             />
           </div>
 
-          <div class="form-group">
-            <label for="candidateExperience">
-              <i class="fa-solid fa-briefcase"></i> Candidate Experience
-              (years):
-            </label>
-            <input
-              type="number"
-              id="candidateExperience"
-              name="candidateExperience"
-              required
-              min="0"
-              step="0.5"
-              placeholder="Enter years of experience"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="skillsToRate">
-              <i class="fa-solid fa-code"></i> Skills to Rate:
+          <div class="mb-3">
+            <label for="candidateExperience" class="form-label">
+              <i class="fas fa-briefcase me-2"></i>Candidate Experience (years):
             </label>
             <input
               type="text"
-              id="skillsToRate"
-              name="skillsToRate"
+              class="form-control"
+              id="candidateExperience"
+              name="candidateExperience"
               required
-              placeholder="e.g. Salesforce, Apex, Lightning Web Components"
             />
           </div>
 
-          <div class="form-group">
-            <label for="mandatorySkills">
-              <i class="fa-solid fa-circle-check"></i> Mandatory Skills:
+          <div class="mb-3">
+            <label for="skillsToRate" class="form-label">
+              <i class="fas fa-code me-2"></i>Skills to Rate:
             </label>
             <textarea
+              class="form-control"
+              id="skillsToRate"
+              name="skillsToRate"
+              required
+            ></textarea>
+            <div class="form-text">Enter skills separated by commas</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="mandatorySkills" class="form-label">
+              <i class="fas fa-exclamation-circle me-2"></i>Mandatory Skills:
+            </label>
+            <textarea
+              class="form-control"
               id="mandatorySkills"
               name="mandatorySkills"
               required
-              placeholder="List the mandatory skills for this position"
             ></textarea>
+            <div class="form-text">Skills that are absolutely required</div>
           </div>
 
-          <div class="form-group">
-            <label for="interviewTranscript">
-              <i class="fa-solid fa-file-lines"></i> Interview Transcript:
+          <div class="mb-3">
+            <label for="interviewTranscript" class="form-label">
+              <i class="fas fa-file-alt me-2"></i>Interview Transcript:
             </label>
             <textarea
+              class="form-control"
               id="interviewTranscript"
               name="interviewTranscript"
+              rows="5"
               required
-              placeholder="Paste the full interview transcript here"
             ></textarea>
           </div>
 
-          <button type="submit" id="evaluateBtn">
-            <i class="fa-solid fa-magnifying-glass"></i> Evaluate Interview
+          <button type="submit" class="btn btn-primary" id="evaluateBtn">
+            <i class="fas fa-chart-bar me-2"></i>Evaluate Interview
           </button>
-        </form>
-
-        <div class="error-message" id="errorMessage">
-          <i class="fa-solid fa-circle-exclamation"></i>
-          <span id="errorText"></span>
         </div>
+      </form>
 
-        <div class="testing-tool" id="testingTool">
-          <h3>Testing Tool</h3>
-          <textarea
-            id="testResponseData"
-            placeholder="Paste sample JSON response here for testing"
-          ></textarea>
-          <button type="button" id="testResponseBtn">Test Response</button>
+      <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
-      </section>
+        <p class="mt-2">Analyzing interview data...</p>
+      </div>
 
-      <section class="results-section">
-        <div class="section-header">
-          <i class="fa-solid fa-chart-simple section-icon"></i>
-          <h2>Evaluation Results</h2>
-        </div>
-
-        <div class="loading" id="loadingIndicator">
-          <div class="spinner"></div>
-          <p>
-            <i class="fa-solid fa-robot"></i> AI is analyzing the interview...
-          </p>
-        </div>
-
-        <div class="results-container" id="resultsContainer">
-          <div class="overall-container">
-            <div class="overall-score-wrapper">
-              <div class="overall-score" id="overallScore">0.0</div>
-              <div class="score-scale">/10</div>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="evaluationModal"
+        tabindex="-1"
+        aria-labelledby="evaluationModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="evaluationModalLabel">
+                <i class="fas fa-clipboard-check me-2"></i>Interview Evaluation
+                Results
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
-            <p class="overall-summary" id="overallSummary"></p>
-            <div class="progress-bar-wrapper">
-              <div class="progress-bar" id="overallProgressBar"></div>
+            <div
+              class="modal-body"
+              id="modalContent"
+              style="overflow-y: auto; max-height: 400px"
+            >
+              <!-- Evaluation results will be inserted here -->
             </div>
-          </div>
-
-          <div class="rating-card">
-            <div class="rating-header">
-              <i class="fa-solid fa-star"></i> Category Ratings
-            </div>
-            <div class="rating-body" id="categoryRatings">
-              <!-- Category ratings will be inserted here by JavaScript -->
-            </div>
-          </div>
-
-          <div class="rating-card">
-            <div class="rating-header">
-              <i class="fa-solid fa-magnifying-glass-chart"></i> Analysis
-            </div>
-            <div class="rating-body">
-              <div class="list-section">
-                <h4>
-                  <i class="fa-solid fa-thumbs-up list-section-icon"></i>
-                  Strengths
-                </h4>
-                <ul class="list-items strengths" id="strengthsList">
-                  <!-- Strengths will be inserted here by JavaScript -->
-                </ul>
-              </div>
-
-              <div class="list-section">
-                <h4>
-                  <i
-                    class="fa-solid fa-triangle-exclamation list-section-icon"
-                  ></i>
-                  Areas for Improvement
-                </h4>
-                <ul class="list-items improvements" id="improvementsList">
-                  <!-- Improvement areas will be inserted here by JavaScript -->
-                </ul>
-              </div>
-
-              <div class="list-section">
-                <h4>
-                  <i class="fa-solid fa-xmark list-section-icon"></i> Missed
-                  Skills
-                </h4>
-                <ul class="list-items missed-skills" id="missedSkillsList">
-                  <!-- Missed skills will be inserted here by JavaScript -->
-                </ul>
-              </div>
-
-              <div class="list-section">
-                <h4>
-                  <i class="fa-solid fa-lightbulb list-section-icon"></i>
-                  Recommendations
-                </h4>
-                <ul class="list-items recommendations" id="recommendationsList">
-                  <!-- Recommendations will be inserted here by JavaScript -->
-                </ul>
-              </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary no-print"
+                data-bs-dismiss="modal"
+              >
+                <i class="fas fa-times me-2"></i>Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary no-print"
+                id="printBtn"
+              >
+                <i class="fas fa-print me-2"></i>Print
+              </button>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+
+      <!-- Hidden container for PDF generation -->
+      <div
+        id="pdfContainer"
+        style="position: absolute; left: -9999px; top: -9999px"
+      ></div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.getElementById("evaluationForm");
-        const loadingIndicator = document.getElementById("loadingIndicator");
-        const resultsContainer = document.getElementById("resultsContainer");
-        const errorMessage = document.getElementById("errorMessage");
-        const errorText = document.getElementById("errorText");
-        const testingTool = document.getElementById("testingTool");
-        const testResponseData = document.getElementById("testResponseData");
-        const testResponseBtn = document.getElementById("testResponseBtn");
+      $(document).ready(function () {
+        // Configuration
+        const API_BASE_URL = window.location.origin + "/api/v1";
+        const evaluationModal = new bootstrap.Modal(
+          document.getElementById("evaluationModal")
+        );
 
-        // Enable testing mode for development
-        const enableTestingMode = false;
-        if (enableTestingMode) {
-          testingTool.style.display = "block";
-        }
+        // Initialize loading spinner as hidden
+        $("#loadingSpinner").hide();
 
-        // Set sample data for testing
-        const sampleData = {
-          overall_rating: {
-            score: 7,
-            summary:
-              "The interviewer demonstrated a good understanding of Salesforce concepts and tailored the questions to the candidate's experience level. However, there is room for improvement in terms of exploring the candidate's practical experience and providing more specific feedback.",
-          },
-          category_ratings: {
-            relevance: {
-              score: 8,
-              feedback:
-                "Most of the questions were relevant to the candidate's experience and the required skills for a Salesforce developer role. The interviewer focused on Apex triggers, LWC components, and SOQL queries, which are essential skills.",
-            },
-            technical_depth: {
-              score: 7,
-              feedback:
-                "The technical depth of the questions was appropriate for the candidate's claimed experience. The trigger coding exercise was a good way to assess practical skills. However, some areas could have been explored further, such as specific challenges faced while developing LWC components or debugging Apex code.",
-            },
-            communication: {
-              score: 8,
-              feedback:
-                "The interviewer communicated clearly and professionally. The introduction was well-structured. The interviewer provided positive feedback on the trigger exercise and constructive criticism regarding areas for improvement. The interviewer was polite throughout the session.",
-            },
-            skill_coverage: {
-              score: 7,
-              feedback:
-                "The interview covered key skills such as Apex, LWC, and SOQL. Async Apex was touched upon. However, REST APIs and DevOps/Salesforce Tools were not adequately explored.",
-            },
-            structure: {
-              score: 7,
-              feedback:
-                "The interview had a reasonable structure, starting with introductions, moving to experience overview, technical questions, a coding exercise, and ending with feedback and recommendations. However, the transitions between topics could have been smoother.",
-            },
-            follow_up_quality: {
-              score: 6,
-              feedback:
-                "The follow-up questions were somewhat limited. While the interviewer asked why the candidate chose 'after' triggers, more probing questions could have been asked to assess the depth of understanding. Similarly, when the candidate mentioned working with data tables, more questions about the challenges or optimizations could have been asked.",
-            },
-            time_management: {
-              score: 8,
-              feedback:
-                "The interview was conducted within the allocated time and covered a decent range of topics. The interviewer efficiently moved on from areas where the candidate lacked experience.",
-            },
-          },
-          strengths: [
-            "Good at tailoring questions to the candidate's experience level.",
-            "Provided a practical coding exercise to assess skills.",
-            "Offered constructive feedback and specific recommendations for improvement.",
-          ],
-          improvement_areas: [
-            "Could delve deeper into specific experiences and challenges faced by the candidate.",
-            "Lacked coverage of Rest APIs and DevOps Tools.",
-            "Follow-up questions could be more probing to assess depth of understanding.",
-          ],
-          missed_skills: ["Rest APIs", "DevOps/Salesforce Tools"],
-          recommendations: [
-            "Develop a structured list of questions for each key skill area (Apex, LWC, SOQL, REST APIs, DevOps) to ensure consistent coverage across interviews.",
-            "Include behavioral questions to assess problem-solving skills and teamwork abilities.",
-            "Ask the candidate about specific projects they have worked on and the challenges they faced to gain a better understanding of their practical experience.",
-          ],
-        };
-
-        // Handle test response button click
-        if (testResponseBtn) {
-          testResponseBtn.addEventListener("click", function () {
-            let testData;
-            try {
-              testData = JSON.parse(
-                testResponseData.value || JSON.stringify(sampleData)
-              );
-              displayResults(testData);
-              loadingIndicator.style.display = "none";
-              resultsContainer.style.display = "block";
-            } catch (error) {
-              console.error("Error parsing test data:", error);
-              errorText.textContent = "Invalid JSON format";
-              errorMessage.style.display = "block";
-            }
-          });
-        }
-
-        form.addEventListener("submit", function (e) {
+        // Form submission handler
+        $("#evaluationForm").on("submit", function (e) {
           e.preventDefault();
 
-          // Hide any previous results or errors
-          resultsContainer.style.display = "none";
-          errorMessage.style.display = "none";
-          loadingIndicator.style.display = "block";
+          const $submitBtn = $("#evaluateBtn");
+          $submitBtn.prop("disabled", true);
+          $("#loadingSpinner").show();
 
-          // Get form data
-          const formData = new FormData(form);
+          // Sanitize inputs
+          const sanitizeInput = (input) => {
+            if (typeof input === "string") {
+              return input.trim().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            }
+            return input;
+          };
 
-          // Convert to plain object
-          const data = {};
-          formData.forEach((value, key) => {
-            data[key] = value;
+          // Prepare request data
+          const requestData = {
+            candidateName: sanitizeInput($("#candidateName").val()),
+            candidateExperience: sanitizeInput($("#candidateExperience").val()),
+            skillsToRate: sanitizeInput($("#skillsToRate").val()),
+            mandatorySkills: sanitizeInput($("#mandatorySkills").val()),
+            interviewTranscript: sanitizeInput($("#interviewTranscript").val()),
+          };
+
+          // API call
+          $.ajax({
+            url: `${API_BASE_URL}/gen`,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(requestData),
+            success: function (response) {
+              $("#loadingSpinner").hide();
+              $submitBtn.prop("disabled", false);
+              console.log(response);
+
+              if (!response.success) {
+                displayErrorMessage(response.message || "Request failed");
+                return;
+              }
+
+              try {
+                displayEvaluationResults(response.data);
+                evaluationModal.show();
+              } catch (error) {
+                console.error("Error processing response:", error);
+                displayErrorMessage(
+                  "There was an error processing the evaluation results."
+                );
+              }
+            },
+            error: function (xhr, status, error) {
+              $("#loadingSpinner").hide();
+              $submitBtn.prop("disabled", false);
+
+              let errorMsg = "There was a problem processing your request.";
+              if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMsg = xhr.responseJSON.message;
+              }
+              displayErrorMessage(errorMsg, error);
+            },
+          });
+        });
+
+        // Print button handler - Fixed for capturing full content
+        $("#printBtn").on("click", function () {
+          const contentHTML = $("#modalContent").html();
+          const $pdfContainer = $("#pdfContainer");
+
+          // Clone the content into our hidden container without height restrictions
+          $pdfContainer.html(contentHTML);
+          $pdfContainer.css({
+            width: "800px", // Set a fixed width for better PDF formatting
+            "background-color": "#fff",
+            padding: "20px",
+            display: "block", // Make sure it's visible for html2canvas
+            position: "absolute",
+            left: "-9999px", // Out of normal view
+            top: "-9999px", // Out of normal view
           });
 
-          // For demo/testing purposes, use sample data instead of real API call
-          if (enableTestingMode) {
-            setTimeout(() => {
-              displayResults(sampleData);
-              loadingIndicator.style.display = "none";
-              resultsContainer.style.display = "block";
-            }, 1500);
+          // Remove any max-height restrictions
+          $pdfContainer.find("[style*='max-height']").css("max-height", "none");
+          $pdfContainer.find("[style*='overflow']").css("overflow", "visible");
+
+          // Allow the DOM to update before capturing
+          setTimeout(function () {
+            html2canvas($pdfContainer[0], {
+              logging: false,
+              useCORS: true,
+              scale: 2, // Improve quality
+              windowWidth: 800,
+              scrollY: 0,
+              scrollX: 0,
+              onclone: function (clonedDoc) {
+                // Additional processing of cloned document if needed
+                $(clonedDoc).find("#pdfContainer").css({
+                  position: "static",
+                  left: "auto",
+                  top: "auto",
+                });
+              },
+            }).then(function (canvas) {
+              const imgData = canvas.toDataURL("image/png");
+              const { jsPDF } = window.jspdf;
+
+              // Calculate dimensions while keeping aspect ratio
+              const pdfWidth = 210; // A4 width in mm
+              const pdfHeight = 297; // A4 height in mm
+              const imgWidth = pdfWidth;
+              const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+              // Create PDF with multiple pages if content is too tall
+              const pdf = new jsPDF("p", "mm", "a4");
+
+              // Add image across multiple pages if necessary
+              let heightLeft = imgHeight;
+              let position = 0;
+              let pageHeight = pdfHeight - 20; // Margin
+
+              // First page
+              pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+              heightLeft -= pageHeight;
+
+              // Additional pages if needed
+              while (heightLeft > 0) {
+                position = heightLeft - imgHeight; // Negative value
+                pdf.addPage();
+                pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+              }
+
+              pdf.save($("#candidateName").val() + "_" + Date.now() + ".pdf");
+
+              // Clean up
+              $pdfContainer.html("");
+            });
+          }, 500);
+        });
+
+        // Helper function to display error messages
+        function displayErrorMessage(message, details = "") {
+          const errorHtml = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <strong>Error:</strong> ${message}
+                        ${
+                          details
+                            ? `<br><br><small>Technical details: ${details}</small>`
+                            : ""
+                        }
+                    </div>
+                `;
+          $("#modalContent").html(errorHtml);
+          evaluationModal.show();
+        }
+
+        // Helper function to get score styling class
+        function getScoreClass(score) {
+          if (!score && score !== 0) return "bg-secondary text-white";
+          if (score >= 1 && score <= 3) return "bg-danger text-white";
+          if (score >= 4 && score <= 6) return "bg-warning text-dark";
+          return "bg-success text-white";
+        }
+
+        // Helper function to get score color
+        function getScoreColor(score) {
+          if (!score && score !== 0) return "#6c757d";
+          if (score >= 1 && score <= 3) return "#dc3545";
+          if (score >= 4 && score <= 6) return "#ffc107";
+          return "#198754";
+        }
+
+        // Helper function to safely access nested object properties
+        function safeGet(obj, path, fallback = "N/A") {
+          if (!obj) return fallback;
+          const keys = path.split(".");
+          return keys.reduce(
+            (acc, key) => (acc && acc[key] !== undefined ? acc[key] : fallback),
+            obj
+          );
+        }
+
+        // Main function to display evaluation results
+        function displayEvaluationResults(data) {
+          if (!data || typeof data !== "object") {
+            displayErrorMessage(
+              "Received invalid data format from the server."
+            );
+            console.error("Invalid data format:", data);
             return;
           }
 
-          fetch("https://interviewer-rating-cangra.onrender.com/api/v1/gen", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: new URLSearchParams(data),
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-              }
-              return response.json();
-            })
-            .then((data) => {
-              displayResults(data);
-              loadingIndicator.style.display = "none";
-              resultsContainer.style.display = "block";
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-              errorText.textContent = `${
-                error.message || "Failed to evaluate interview"
-              }`;
-              errorMessage.style.display = "block";
-              loadingIndicator.style.display = "none";
-            });
-        });
+          let html = `
+                    <div class="container-fluid p-0">
+                        <!-- Overall Rating -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <i class="fas fa-star me-2"></i>Overall Rating
+                            </div>
+                            <div class="card-body">`;
 
-        function displayResults(data) {
-          // Check if the data structure is as expected
-          if (!data || !data.overall_rating || !data.category_ratings) {
-            throw new Error("Invalid response data structure");
-          }
-
-          // Set overall score and summary
-          const overallScore = document.getElementById("overallScore");
-          const overallSummary = document.getElementById("overallSummary");
-          const overallProgressBar =
-            document.getElementById("overallProgressBar");
-
-          // Safely access the data
-          const score = data.overall_rating.score;
-
-          if (score !== undefined) {
-            overallScore.textContent = score.toFixed(1);
-            overallProgressBar.style.width = `${score * 10}%`;
-
-            // Set color based on score
-            if (score >= 8) {
-              overallScore.style.color = "var(--success)";
-            } else if (score >= 6) {
-              overallScore.style.color = "var(--warning)";
-            } else {
-              overallScore.style.color = "var(--danger)";
-            }
+          // Overall Rating Section
+          if (data.overall_rating) {
+            const overallScore = safeGet(data, "overall_rating.score");
+            const scoreBadgeClass = getScoreClass(overallScore);
+            html += `
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="score-badge ${scoreBadgeClass}">${overallScore}</div>
+                                    <h5 class="mb-0">Overall Score</h5>
+                                </div>
+                                <p>${safeGet(
+                                  data,
+                                  "overall_rating.summary",
+                                  "No summary available."
+                                )}</p>`;
           } else {
-            overallScore.textContent = "N/A";
-            overallProgressBar.style.width = "0%";
+            html += `<p class="alert alert-warning">No overall rating available</p>`;
           }
 
-          if (data.overall_rating.summary) {
-            overallSummary.textContent = data.overall_rating.summary;
-          } else {
-            overallSummary.textContent = "No summary available.";
-          }
+          html += `
+                            </div>
+                        </div>
+                        
+                        <!-- Category Ratings -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <i class="fas fa-list-check me-2"></i>Category Ratings
+                            </div>
+                            <div class="card-body">`;
 
-          // Display category ratings
-          const categoryRatingsElement =
-            document.getElementById("categoryRatings");
-          categoryRatingsElement.innerHTML = "";
-
-          const categoryIcons = {
-            relevance: "fa-solid fa-bullseye",
-            technical_depth: "fa-solid fa-microchip",
-            communication: "fa-solid fa-comments",
-            skill_coverage: "fa-solid fa-code",
-            structure: "fa-solid fa-sitemap",
-            follow_up_quality: "fa-solid fa-reply-all",
-            time_management: "fa-solid fa-clock",
-          };
-
+          // Category Ratings Section
           if (
             data.category_ratings &&
-            Object.keys(data.category_ratings).length > 0
+            typeof data.category_ratings === "object"
           ) {
             for (const [category, rating] of Object.entries(
               data.category_ratings
             )) {
-              if (!rating || typeof rating !== "object") continue;
+              const score =
+                rating && rating.score !== undefined ? rating.score : "N/A";
+              const feedback =
+                rating && rating.feedback
+                  ? rating.feedback
+                  : "No feedback available";
+              const scoreColor = getScoreColor(score);
 
-              const formattedCategory = category
-                .split("_")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ");
-
-              const icon = categoryIcons[category] || "fa-solid fa-star";
-              const ratingScore = rating.score !== undefined ? rating.score : 0;
-
-              // Determine rating class based on score
-              let ratingClass = "medium";
-              if (ratingScore >= 8) {
-                ratingClass = "high";
-              } else if (ratingScore <= 5) {
-                ratingClass = "low";
-              }
-
-              const ratingItem = document.createElement("div");
-              ratingItem.className = "rating-item";
-              ratingItem.innerHTML = `
-                <div>
-                  <div class="rating-label">
-                    <i class="${icon} rating-icon"></i>
-                    ${formattedCategory}
-                    <span class="tooltip">
-                      <i class="fa-solid fa-circle-info"></i>
-                      <span class="tooltip-text">This rating evaluates the ${category.replace(
-                        /_/g,
-                        " "
-                      )} aspect of the interview.</span>
-                    </span>
-                  </div>
-                  <div class="rating-feedback">${
-                    rating.feedback || "No feedback available."
-                  }</div>
-                </div>
-                <div class="rating-value ${ratingClass}">${ratingScore.toFixed(
-                1
-              )}</div>
-              `;
-
-              categoryRatingsElement.appendChild(ratingItem);
+              html += `
+                                <div class="category-rating mb-3 p-3 border-start border-4" style="border-color: ${scoreColor}">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="score-badge ${getScoreClass(
+                                          score
+                                        )} me-3">${score}</div>
+                                        <h5 class="mb-0 text-capitalize">${category.replace(
+                                          /_/g,
+                                          " "
+                                        )}</h5>
+                                    </div>
+                                    <p class="mb-0">${feedback}</p>
+                                </div>`;
             }
           } else {
-            const noRatings = document.createElement("div");
-            noRatings.textContent = "No category ratings available.";
-            categoryRatingsElement.appendChild(noRatings);
+            html += `<p class="alert alert-warning">No category ratings available</p>`;
           }
 
-          // Display lists
-          populateList("strengthsList", data.strengths, "fa-solid fa-check");
-          populateList(
-            "improvementsList",
-            data.improvement_areas,
-            "fa-solid fa-arrows-spin"
-          );
-          populateList(
-            "missedSkillsList",
-            data.missed_skills,
-            "fa-solid fa-xmark"
-          );
-          populateList(
-            "recommendationsList",
-            data.recommendations,
-            "fa-solid fa-circle-arrow-right"
-          );
-        }
+          html += `
+                            </div>
+                        </div>`;
 
-        function populateList(elementId, items, iconClass) {
-          const listElement = document.getElementById(elementId);
-          listElement.innerHTML = "";
+          // Dynamic Sections (Strengths, Improvements, etc.)
+          const sections = [
+            {
+              key: "strengths",
+              title: "Strengths",
+              icon: "fa-thumbs-up",
+              colorClass: "success",
+              listClass: "",
+            },
+            {
+              key: "improvement_areas",
+              title: "Improvement Areas",
+              icon: "fa-exclamation-triangle",
+              colorClass: "warning",
+              listClass: "",
+            },
+            {
+              key: "missed_skills",
+              title: "Missed Skills",
+              icon: "fa-times-circle",
+              colorClass: "danger",
+              listClass: "missed-skills",
+            },
+            {
+              key: "recommendations",
+              title: "Recommendations",
+              icon: "fa-lightbulb",
+              colorClass: "info",
+              listClass: "",
+            },
+          ];
 
-          if (!items || items.length === 0) {
-            const li = document.createElement("li");
-            li.innerHTML = `<i class="fa-solid fa-circle-info list-item-icon"></i> None identified`;
-            listElement.appendChild(li);
-            return;
-          }
+          sections.forEach((section) => {
+            if (
+              data[section.key] &&
+              Array.isArray(data[section.key]) &&
+              data[section.key].length > 0
+            ) {
+              html += `
+                        <!-- ${section.title} -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-${
+                              section.colorClass
+                            } text-${
+                section.colorClass === "warning" ? "dark" : "white"
+              }">
+                                <i class="fas ${section.icon} me-2"></i>${
+                section.title
+              }
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush ${
+                                  section.listClass
+                                }">`;
 
-          items.forEach((item) => {
-            const li = document.createElement("li");
-            li.innerHTML = `<i class="${iconClass} list-item-icon"></i> ${item}`;
-            listElement.appendChild(li);
+              data[section.key].forEach((item) => {
+                html += `
+                                    <li class="list-group-item">
+                                        <i class="fas ${
+                                          section.key === "strengths"
+                                            ? "fa-check-circle"
+                                            : section.key ===
+                                              "improvement_areas"
+                                            ? "fa-tools"
+                                            : section.key === "missed_skills"
+                                            ? "fa-minus-circle"
+                                            : "fa-arrow-right"
+                                        } text-${section.colorClass} me-2"></i>
+                                        ${item}
+                                    </li>`;
+              });
+
+              html += `
+                                </ul>
+                            </div>
+                        </div>`;
+            }
           });
+
+          html += `</div>`;
+
+          $("#modalContent").html(html);
         }
       });
     </script>

@@ -17,7 +17,7 @@ async function aiFeedback(CandidateData) {
         model: "gemini-2.0-flash",
         contents: `${SYSTEM_PROMPT_3} \nAnalyze the following interview transcript and user details: ${JSON.stringify(CandidateData)}`,
     });
-    return responseCleaner(response.text);
+    return JSON.parse(responseCleaner(response.text));
 }
 
 

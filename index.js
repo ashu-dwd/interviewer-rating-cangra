@@ -29,9 +29,13 @@ app.post('/', async (req, res) => {
     const { candidateName, candidateExperience, interviewTranscript, skillsToRate, mandetorySkills } = req.body;
     const CandidateData = { candidateName, candidateExperience, interviewTranscript, skillsToRate, mandetorySkills };
     const result = await main(CandidateData);
-    const outputPath = path.join(__dirname, "public", `${candidateName}_${Date.now()}.docx`);
-    fs.writeFileSync(outputPath, result, "utf-8");
-    res.send(result)
+    const responseCleaner = (response) => {
+        return response.replace(/^json\s*/i, '')
+            .replace(/^```json\s*/i, '')
+            .replace(/```$/g, '')
+            .trim();
+    };
+    res.json(JSON.parse(responseCleaner(result)));
 })
 
 app.listen(PORT, () => {

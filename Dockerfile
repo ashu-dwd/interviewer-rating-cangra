@@ -1,27 +1,21 @@
 # Use official Node.js image
-FROM node:18-alpine AS builder
+FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy package files and install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm ci --only=production
 
-# Copy source code
+# Install PM2 globally
+RUN npm install -g pm2
+
+# Copy rest of the source code
 COPY . .
 
-# Production stage
-FROM node:18-alpine
-WORKDIR /app
-
-# Copy only necessary files from builder
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/. ./
-
-# Expose port (adjust if needed)
+# Expose the port
 EXPOSE 3000
 
-# Start the server
-CMD ["node", "app.js"]
+# Start app with PM2 in single-process mode
+CMD ["pm2-runtime", "app.js"]

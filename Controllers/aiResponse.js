@@ -22,8 +22,5 @@ async function aiFeedback(CandidateData) {
 }
 
 
-
-
-
 module.exports = { aiFeedback };
 

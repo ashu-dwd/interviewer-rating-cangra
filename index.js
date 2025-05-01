@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
+//const fs = require('fs');
 const aiRoute = require('./Routes/aiRoute');
 const cors = require('cors');
-const main = require('./aiHandler');
+//const main = require('./aiHandler');
 
 const app = express();
 const PORT = 3000;
@@ -16,7 +16,7 @@ app.use(cors({
 }));
 
 // Serve static files (e.g., CSS, JS, images)
-app.use(express.static('Public'));
+app.use(express.static('public'));
 
 // Routes
 app.use('/api/v1/', aiRoute);
@@ -25,18 +25,6 @@ app.use('/api/v1/', aiRoute);
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-app.post('/', async (req, res) => {
-    const { candidateName, candidateExperience, interviewTranscript, skillsToRate, mandetorySkills } = req.body;
-    const CandidateData = { candidateName, candidateExperience, interviewTranscript, skillsToRate, mandetorySkills };
-    const result = await main(CandidateData);
-    const responseCleaner = (response) => {
-        return response.replace(/^json\s*/i, '')
-            .replace(/^```json\s*/i, '')
-            .replace(/```$/g, '')
-            .trim();
-    };
-    res.json(JSON.parse(responseCleaner(result)));
-})
 
 app.listen(PORT, () => {
     console.log(`✅ Server running at http://localhost:${PORT}`);

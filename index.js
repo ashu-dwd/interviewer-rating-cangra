@@ -16,14 +16,14 @@ app.use(cors({
 }));
 
 // Serve static files (e.g., CSS, JS, images)
-app.use(express.static('public'));
+app.use(express.static('Public'));
 
 // Routes
 app.use('/api/v1/', aiRoute);
 
 // Serve index.html on root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'Public', 'index.html'));
 });
 
 app.listen(PORT, () => {

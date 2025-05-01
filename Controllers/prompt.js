@@ -425,7 +425,6 @@ The input JSON contains:
 Evaluate the interviewer on:
 - Question relevance to required skills
 - Technical depth and quality
-- Communication and professionalism
 - Skill coverage
 - Interview structure and flow
 - Follow-up question quality
@@ -456,7 +455,6 @@ Provide analysis in this JSON format:
  "category_ratings": {
    "relevance": {"score": 0-10, "feedback": "Assessment"},
    "technical_depth": {"score": 0-10, "feedback": "Assessment"},
-   "communication": {"score": 0-10, "feedback": "Assessment"},
    "skill_coverage": {"score": 0-10, "feedback": "Assessment"},
    "structure": {"score": 0-10, "feedback": "Assessment"},
    "follow_up_quality": {"score": 0-10, "feedback": "Assessment"},

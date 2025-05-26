@@ -28,7 +28,7 @@ router.post('/gen', validateInput, async (req, res) => {
         const CandidateData = { candidateName, candidateExperience, interviewTranscript, skillsToRate, mandetorySkills };
 
         const aiResponse = await aiFeedback(CandidateData);
-
+        console.log('AI Response:', aiResponse);
         // Ensure consistent response format
         res.json({
             success: true,

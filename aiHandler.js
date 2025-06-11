@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { SYSTEM_PROMPT_3 } = require("./Controllers/prompt.js");
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyC60bXT8m7R3ZbhN7H1PeCZgvNe6ABxuiA" });
+const ai = new GoogleGenAI({ apiKey: "" });
 
 
 async function main(CandidateData) {
